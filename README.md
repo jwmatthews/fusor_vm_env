@@ -24,3 +24,7 @@ Vagrant files to provision Fusor environments
 
 
 
+# Tips
+## vagrant-hostmanager
+ * Install [vagrant-hostmanager](https://github.com/smdahlen/vagrant-hostmanager) to automatically update '/etc/hosts' with hostnames of the VMs you provision
+ 
