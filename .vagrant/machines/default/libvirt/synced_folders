@@ -1,0 +1,1 @@
+{"nfs":{"/vagrant":{"type":"nfs","guestpath":"/vagrant","hostpath":"/git/RHCI/fusor_vm_env","disabled":false,"map_uid":1000,"map_gid":1000,"nfs_udp":true,"nfs_version":3,"uuid":"3053546434","linux__nfs_options":["rw","no_subtree_check","all_squash","anonuid=1000","anongid=1000","fsid=3053546434"]}}}

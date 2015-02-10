@@ -1,0 +1,33 @@
+##
+# Ensure that virtualization is enabled in your BIOS.
+##
+
+sudo yum install kvm qemu-kvm qemu-img libvirt libvirt-devel gcc
+
+# On Fedora 21, 2/10/2015, running into problem installing ruby-libvirt
+# Issue:  https://github.com/mitchellh/vagrant/issues/5118
+# Detailed Info for Workaround:
+#   http://blog.obnox.de/vagrant-with-lxc-and-libvirt-on-fedora/
+#
+# Workaround:
+#   sudo alternatives --set ld /usr/bin/ld.gold
+
+sudo alternatives --set ld /usr/bin/ld.gold
+vagrant plugin install vagrant-libvirt
+
+
+#
+# To reduce the authorization questions from interacting with libvirt create
+# the below file.
+# Replace with your username
+#
+
+
+cat /etc/polkit-1/localauthority/50-local.d/vagrant.pkla 
+[Allow jmatthews libvirt management permissions]
+Identity=unix-user:jmatthews
+Action=org.libvirt.unix.manage
+ResultAny=yes
+ResultInactive=yes
+ResultActive=yes
+
