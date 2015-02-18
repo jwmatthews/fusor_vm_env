@@ -8,8 +8,8 @@ Vagrant.configure("2") do |config|
   config.hostmanager.ignore_private_ip = false
   config.hostmanager.include_offline = true
 
-  config.vm.box = "fusor.vagrant.centos7.2015.02.17"
-  config.vm.box_url = "https://s3.amazonaws.com/fusor.vagrant.centos7.2015.02.17/fusor_centos_7.0.box"
+  config.vm.box = "fusor_centos_7.0_20150218"
+  config.vm.box_url = "https://s3.amazonaws.com/fusor-vagrant/fusor_centos_7.0_20150218.box"
 
   config.vm.provision :shell, :path => "setup_centos.sh"
 

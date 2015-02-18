@@ -8,11 +8,17 @@ Vagrant.configure("2") do |config|
   config.hostmanager.ignore_private_ip = false
   config.hostmanager.include_offline = true
 
-  config.vm.box = "centos7"
-  config.vm.box_url = "https://download.gluster.org/pub/gluster/purpleidea/vagrant/centos-7.0/centos-7.0.box"
+  config.vm.box = "fusor_centos_7.0_20150218"
+  config.vm.box_url = "https://s3.amazonaws.com/fusor-vagrant/fusor_centos_7.0_20150218.box"
   config.vm.provision :shell, :path => "setup_centos.sh"
 
   config.vm.synced_folder ".", "/vagrant", type: "nfs"
+  
+  config.vm.network :private_network,
+    :ip => "192.168.251.10",
+    :libvirt__netmask => "255.255.255.0",
+    :libvirt__network_name => "fusor_net1",
+    :libvirt__dhcp_enabled => false
 
   config.vm.provider :libvirt do |libvirt|
     libvirt.driver = "kvm"
