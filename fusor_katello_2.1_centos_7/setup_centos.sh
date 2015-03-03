@@ -2,21 +2,10 @@
 
 setenforce 0
 
+yum install -y wget
+wget http://ec2-23-22-86-129.compute-1.amazonaws.com/pub/fusor_el7_x86_64.repo -O /etc/yum.repos.d/fusor_el7_x86_64.repo
+
 yum update -y nss
-
-if [ ! -f /etc/yum.repos.d/fusor.repo ]; then
-
-cat << EOF > /etc/yum.repos.d/fusor.repo
-[fusor]
-name=Fusor
-baseurl=http://ec2-23-22-86-129.compute-1.amazonaws.com/pub/fusor/el7/x86_64/
-gpgcheck=0
-sslverify=0
-enabled=1
-EOF
-
-fi
-
 yum -y localinstall http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
 yum -y localinstall https://www.softwarecollections.org/en/scls/rhscl/v8314/epel-7-x86_64/download/rhscl-v8314-epel-7-x86_64.noarch.rpm
 yum -y localinstall https://www.softwarecollections.org/en/scls/rhscl/ruby193/epel-7-x86_64/download/rhscl-ruby193-epel-7-x86_64.noarch.rpm
@@ -26,8 +15,8 @@ yum -y localinstall http://koji.katello.org/releases/yum/katello-2.1/katello/RHE
 yum -y localinstall http://yum.theforeman.org/releases/1.7/el7/x86_64/foreman-release.rpm
 
 yum -y install katello
-yum -y install fusor-installer 
+yum -y install fusor-installer
 yum -y install ruby193-rubygem-fusor_ui
-
+yum -y install foreman-discovery-image
 
 
