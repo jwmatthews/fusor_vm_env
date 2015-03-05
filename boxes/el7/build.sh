@@ -36,18 +36,29 @@ OUTPUT="./output"
 SIZE="750"
 ROOT_PASSWORD="vagrant"
 
+
+rpm -q virt-builder
+if [ "$?" -ne "0" ]; then
+    # We've been building images on Fedora-21
+    # as of 3/5/15 we don't have a virt-builder RPM available for CentOS7
+    echo "Please install 'virt-builder' before proceeding"
+    exit
+fi
+
 [ -d ${OUTPUT} ] || mkdir -p ${OUTPUT}/	
+
+
 
 echo "Running virt-builder"
 virt-builder ${VERSION} \
 	--output ${OUTPUT}/builder.img \
 	--format qcow2 \
 	--size ${SIZE}G \
-	--install rsync,nfs-utils,sudo,openssh-server,openssh-clients,screen,tar,net-tools \
+	--install rsync,nfs-utils,sudo,openssh-server,openssh-clients,screen,tar,net-tools,vim-enhanced \
 	--root-password password:${ROOT_PASSWORD} \
 	--run files/user.sh \
 	--run files/ssh.sh \
-	--run-command 'sed -i s"/SELINUX=enforcing/SELINUX=disabled"/g /etc/sysconfig/selinux' \
+	--run-command 'sed -i s"/SELINUX=enforcing/SELINUX=disabled/g" /etc/sysconfig/selinux' \
 	--run-command 'systemctl disable firewalld' \
 	--run-command 'systemctl enable sshd' \
 	--run-command 'yum clean all' \
