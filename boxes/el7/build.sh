@@ -9,7 +9,7 @@
 #
 # Below are issues we ran into with using purpleidea/vagrant-builder as-is:
 #  - 2/17/15:  I attempted to use 'vagrant-builder' from purpleidea's github repo to generate a CentOS-7 Box.
-#              I am not using Docker, nor including any Docker files, this have broken his script.
+#              I am not using Docker, nor including any Docker files, this might have broken his script.
 #
 #    Issue-1:  Bumped disk size to 750GB, built image, failed to come up completely.
 #                Boots, but fails at a disk check.  Says I need to run fsck
@@ -37,11 +37,9 @@ SIZE="750"
 ROOT_PASSWORD="vagrant"
 
 
-rpm -q virt-builder
+which virt-builder
 if [ "$?" -ne "0" ]; then
-    # We've been building images on Fedora-21
-    # as of 3/5/15 we don't have a virt-builder RPM available for CentOS7
-    echo "Please install 'virt-builder' before proceeding"
+    echo "Please install 'libguestfs-tools-c' before proceeding"
     exit
 fi
 
