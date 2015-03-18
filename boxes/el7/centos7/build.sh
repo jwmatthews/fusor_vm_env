@@ -77,7 +77,7 @@ echo "{\"provider\": \"libvirt\", \"format\": \"qcow2\", \"virtual_size\": ${SIZ
 echo '' >> ${OUTPUT}/metadata.json	# newline
 
 echo "Compressing files into ${OUTPUT}/${BOX}"
-tar -cvzf ${OUTPUT}/${BOX} ./Vagrantfile --directory=${OUTPUT}/ ./metadata.json ./box.img
+tar -cvzf ${OUTPUT}/${BOX} ../Vagrantfile --directory=${OUTPUT}/ ./metadata.json ./box.img
 
 echo "To import this into vagrant run:"
 echo "vagrant box add ${OUTPUT}/${BOX} --name ${NAME}"

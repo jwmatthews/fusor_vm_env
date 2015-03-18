@@ -3,7 +3,7 @@
 # This script is based off of work James Shubin published at:
 #  https://ttboj.wordpress.com/2014/01/20/building-base-images-for-vagrant-with-a-makefile/
 #  https://github.com/purpleidea/vagrant-builder/blob/master/v7/Makefile
-#
+#  https://ttboj.wordpress.com/2015/02/23/building-rhel-vagrant-boxes-with-vagrant-builder/
 #
 # We are modifying his work to create an image to use for Fusor development.
 #
@@ -47,9 +47,27 @@ fi
 
 [ -d ${OUTPUT} ] || mkdir -p ${OUTPUT}/	
 
+RHN_CREDENTIALS="./credentials"
+if [ ! -f ${RHN_CREDENTIALS} ]; then
+    echo "Unable to continue, we need credentials for registering with subscription-manager in ${RHN_CREDENTIALS}"
+    exit
+fi
+
+source ${RHN_CREDENTIALS}
+if [ "${RHN_USER}" == "" ]; then
+    echo "Unable to find a value for RHN_USER being set and exported in ${RHN_CREDENTIALS}"
+    exit
+fi
+if [ "${RHN_PASS}" == "" ]; then
+    echo "Unable to find a value for RHN_PASS being set and exported in ${RHN_CREDENTIALS}"
+    exit
+fi
+
+
 
 echo "Running virt-builder"
 virt-builder ${VERSION} \
+  --run-command "subscription-manager register --username='${RHN_USER}' --password='${RHN_PASS}' --auto-attach" \
   --no-check-signature \
   --fingerprint 'BOGUS, see https://bugzilla.redhat.com/show_bug.cgi?id=1193237' \
   --source file://`realpath ${VIRT_BUILDER_INDEX}` \
@@ -64,7 +82,8 @@ virt-builder ${VERSION} \
   --run-command 'systemctl disable firewalld' \
   --run-command 'systemctl enable sshd' \
   --run-command 'yum clean all' \
-  --run-command 'touch /.autorelabel'
+  --run-command 'touch /.autorelabel' \
+  --run-command "subscription-manager unregister"
 
 if [ "$?" -ne "0" ]; then
   echo "Error running 'virt-builder' so quitting now"
@@ -85,7 +104,7 @@ echo "{\"provider\": \"libvirt\", \"format\": \"qcow2\", \"virtual_size\": ${SIZ
 echo '' >> ${OUTPUT}/metadata.json	# newline
 
 echo "Compressing files into ${OUTPUT}/${BOX}"
-tar -cvzf ${OUTPUT}/${BOX} ./Vagrantfile --directory=${OUTPUT}/ ./metadata.json ./box.img
+tar -cvzf ${OUTPUT}/${BOX} ../Vagrantfile --directory=${OUTPUT}/ ./metadata.json ./box.img
 
 echo "To import this into vagrant run:"
 echo "vagrant box add ${OUTPUT}/${BOX} --name ${NAME}"
