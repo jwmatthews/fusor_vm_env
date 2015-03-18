@@ -63,6 +63,10 @@ if [ "${RHN_PASS}" == "" ]; then
     exit
 fi
 
+if [ ! -f ${VIRT_BUILDER_INDEX} ]; then
+    echo "Building a '${VERSION}' image template to be used by virt-builder"
+    ./create_rhel7_virt_builder_image.sh
+fi
 
 
 echo "Running virt-builder"

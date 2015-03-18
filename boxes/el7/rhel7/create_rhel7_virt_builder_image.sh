@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ##
-# This script will create an image usable by virt-builder
+# This script will create an image template usable by virt-builder
 # Requires an OS ISO and a Kickstart
 ##
 
@@ -20,26 +20,29 @@ KS="./rhel7.ks"
 
 [ -d ${OUTPUT_DIR} ] || mkdir -p ${OUTPUT_DIR}/	
 
-#sudo virt-install \
-#  --name=${NAME} \
-#  --ram=2048 \
-#  --cpu=host --vcpus=2 \
-#  --os-type=linux --os-variant=rhel7 \
-#  --initrd-inject=${KS} \
-#  --extra-args="ks=file:/`basename ${KS}` console=tty0 console=ttyS0,115200" \
-#  --disk "${OUTPUT_IMAGE},size=6" \
-#  --serial pty \
-#  --location="${ISO}" \
-#  --nographics \
-#  --noreboot
+sudo virt-install \
+  --name=${NAME} \
+  --ram=2048 \
+  --cpu=host --vcpus=2 \
+  --os-type=linux --os-variant=rhel7 \
+  --initrd-inject=${KS} \
+  --extra-args="ks=file:/`basename ${KS}` console=tty0 console=ttyS0,115200" \
+  --disk "${OUTPUT_IMAGE},size=6" \
+  --serial pty \
+  --location="${ISO}" \
+  --nographics \
+  --noreboot
 
 
-#sudo virt-sysprep -a ${OUTPUT_IMAGE}
-#sudo virt-sparsify --in-place ${OUTPUT_IMAGE}
-#sudo xz --best --block-size=16777216 ${OUTPUT_IMAGE}
+sudo virt-sysprep -a ${OUTPUT_IMAGE}
+sudo virt-sparsify --in-place ${OUTPUT_IMAGE}
+sudo xz --best --block-size=16777216 ${OUTPUT_IMAGE}
 
 sudo chown $USER ${OUTPUT_IMAGE}.xz
 
+#
+# Creates an index file which will be passed to virt-builder so it sees this image template we built
+#
 cat << EOF > ${OUTPUT_DIR}/index
 [${NAME}]
 name=${NAME}
