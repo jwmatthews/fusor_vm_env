@@ -35,6 +35,7 @@ VERSION="centos-7.0"  # from virt-builder --list
 OUTPUT="./output"
 SIZE="750"
 ROOT_PASSWORD="vagrant"
+FILES_DIR="../files"
 
 
 which virt-builder
@@ -54,8 +55,8 @@ virt-builder ${VERSION} \
 	--size ${SIZE}G \
 	--install rsync,nfs-utils,sudo,openssh-server,openssh-clients,screen,tar,net-tools,vim-enhanced \
 	--root-password password:${ROOT_PASSWORD} \
-	--run files/user.sh \
-	--run files/ssh.sh \
+	--run ${FILES_DIR}/user.sh \
+	--run ${FILES_DIR}/ssh.sh \
 	--run-command 'sed -i s"/SELINUX=enforcing/SELINUX=disabled/g" /etc/sysconfig/selinux' \
 	--run-command 'systemctl disable firewalld' \
 	--run-command 'systemctl enable sshd' \
