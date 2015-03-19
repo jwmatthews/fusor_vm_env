@@ -16,12 +16,18 @@ NAME="rhel7.0"
 OUTPUT_DIR="./output"
 OUTPUT_IMAGE="${OUTPUT_DIR}/${NAME}"
 KS="./rhel7.ks"
-
+VM_NAME=${NAME}`date +"%Y%m%d%H%M"`
 
 [ -d ${OUTPUT_DIR} ] || mkdir -p ${OUTPUT_DIR}/	
 
+if [ -d ${OUTPUT_IMAGE} ]; then
+    echo "${OUTPUT_IMAGE} exists"
+    echo "Please delete and re-run if you want to regenerate this file"
+    exit
+fi
+
 sudo virt-install \
-  --name=${NAME} \
+  --name=${VM_NAME} \
   --ram=2048 \
   --cpu=host --vcpus=2 \
   --os-type=linux --os-variant=rhel7 \

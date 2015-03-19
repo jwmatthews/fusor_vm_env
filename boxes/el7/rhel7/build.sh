@@ -64,12 +64,14 @@ if [ "${RHN_PASS}" == "" ]; then
 fi
 
 if [ ! -f ${VIRT_BUILDER_INDEX} ]; then
-    echo "Building a '${VERSION}' image template to be used by virt-builder"
-    ./create_rhel7_virt_builder_image.sh
+    echo "Please create an image template for '${VERSION}' which can be used by virt-builder"
+    echo "Run:  ./create_rhel7_virt_builder_image.sh PATH_TO_ISO"
+    exit
 fi
 
 
 echo "Running virt-builder"
+virt-builder --delete-cache  # Deleting cache to avoid problems if this is called multiplt times
 virt-builder ${VERSION} \
   --run-command "subscription-manager register --username='${RHN_USER}' --password='${RHN_PASS}' --auto-attach" \
   --no-check-signature \
@@ -93,7 +95,6 @@ if [ "$?" -ne "0" ]; then
   echo "Error running 'virt-builder' so quitting now"
   exit
 fi
-
 
 #
 # James made a comment in his Makefile that the below qemu-img convert is needed as a workaround:
