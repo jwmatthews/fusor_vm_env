@@ -12,7 +12,7 @@ if [ "$#" -ne 1 ]; then
 fi
 ISO=$1
 
-NAME="rhel7.0"
+NAME="rhel7.1"
 OUTPUT_DIR="./output"
 OUTPUT_IMAGE="${OUTPUT_DIR}/${NAME}"
 KS="./rhel7.ks"
@@ -33,7 +33,7 @@ sudo virt-install \
   --os-type=linux --os-variant=rhel7 \
   --initrd-inject=${KS} \
   --extra-args="ks=file:/`basename ${KS}` console=tty0 console=ttyS0,115200" \
-  --disk "${OUTPUT_IMAGE},size=6" \
+  --disk "${OUTPUT_IMAGE},size=1000" \
   --serial pty \
   --location="${ISO}" \
   --nographics \

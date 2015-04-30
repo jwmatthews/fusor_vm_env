@@ -29,9 +29,9 @@
 # 2) Import the box
 #    vagrant box add ${OUTPUT}/${BOX} --name ${NAME}
 
-NAME="fusor_rhel_7.0"
+NAME="fusor_rhel_7.1"
 BOX="${NAME}.box"
-VERSION="rhel7.0"  # from virt-builder --list
+VERSION="rhel7.1"  # from virt-builder --list
 OUTPUT="./output"
 SIZE="750"
 ROOT_PASSWORD="vagrant"

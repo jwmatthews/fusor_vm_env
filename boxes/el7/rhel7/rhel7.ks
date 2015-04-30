@@ -13,7 +13,7 @@ zerombr
 clearpart --all --initlabel
 part /boot --fstype=ext4 --size=512 --asprimary
 part swap --size=1024 --asprimary
-part / --fstype=xfs --size=1024 --grow --asprimary
+part / --fstype=ext4 --size=1024 --grow --asprimary
 
 poweroff
 
