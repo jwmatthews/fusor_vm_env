@@ -20,7 +20,7 @@
 #
 #
 # Requires RPM packages:
-#  libguestfs-tools-c
+#  libguestfs-tools
 #
 
 # Usage:
@@ -29,9 +29,9 @@
 # 2) Import the box
 #    vagrant box add ${OUTPUT}/${BOX} --name ${NAME}
 
-NAME="fusor_centos_7.0"
+NAME="centos_7.1"
 BOX="${NAME}.box"
-VERSION="centos-7.0"  # from virt-builder --list
+VERSION="centos-7.1"  # from virt-builder --list
 OUTPUT="./output"
 SIZE="750"
 ROOT_PASSWORD="vagrant"
@@ -40,7 +40,7 @@ FILES_DIR="../files"
 
 which virt-builder
 if [ "$?" -ne "0" ]; then
-    echo "Please install 'libguestfs-tools-c' before proceeding"
+    echo "Please install 'libguestfs-tools' before proceeding"
     exit
 fi
 
