@@ -1,0 +1,19 @@
+I ran into a need to modify the resulting images outside of virt-builder when trying to install rvm.
+Problems with:
+ - sourcing the rvm login scripts
+ - running configure on building ruby, problem with a bad file descriptor.
+
+To work around this I tried to add rvm + ruby through normal vagrant setup then run
+ vagrant package --output box_name
+
+This almost worked...
+Got a working virt image, but vagrant package removed the ssh keys causing ssh to not work.
+
+To fix this I manually opened the image:
+ tar xvfz image.box
+ sudo guestmount -a ./box.img -i --rw /guest/
+   make changes
+ umount /guest
+
+Ran into a problem with the ssh context
+
